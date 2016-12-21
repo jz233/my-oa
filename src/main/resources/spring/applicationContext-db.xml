@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="configLocation">
+            <value>classpath:hibernate/hibernate.cfg.xml</value>
+        </property>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- 注解解析器 -->
+    <context:component-scan base-package="zjj.oa"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--   <tx:advice id="tx" transaction-manager="transactionManager">
+           <tx:attributes>
+               <tx:method name="save*" read-only="false"/>
+               <tx:method name="update*" read-only="false"/>
+               <tx:method name="delete*" read-only="false"/>
+               <tx:method name="*" read-only="true"/>
+           </tx:attributes>
+       </tx:advice>
+
+       <aop:config>
+           <aop:pointcut id="perform" expression="execution(* zjj.oa.service.impl.*.*(..))"/>
+           <aop:advisor advice-ref="tx" pointcut-ref="perform"/>
+       </aop:config>-->
+</beans> 

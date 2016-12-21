@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--
+        class元素描述的就是持久化类
+          name     类的全名
+          table    表名  默认值为person
+          catalog  数据库的名称
+     -->
+    <class name="zjj.oa.domain.system.Department">
+        <id name="did" length="5" type="java.lang.Long">
+            <generator class="increment"></generator>
+        </id>
+        <property name="name" length="20" type="java.lang.String"></property>
+        <property name="description" length="50" type="java.lang.String"></property>
+
+        <!-- inverse="true" 不维护department和user之间的关联-->
+        <set name="users" inverse="true">
+            <key>
+                <column name="did"/>
+            </key>
+            <one-to-many class="zjj.oa.domain.system.User"/>
+        </set>
+    </class>
+</hibernate-mapping>
